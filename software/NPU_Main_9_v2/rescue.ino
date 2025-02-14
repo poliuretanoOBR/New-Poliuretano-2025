@@ -35,7 +35,7 @@ void SwallowBalls() {
       set_servo(1, 150);
       set_servo(1, 120);
     }
-    auxclaw = analogRead(A1);
+    auxclaw = analogRead(A10);
     if(auxclaw < claw_TCRT)
     {
       claw_TCRT = auxclaw;
