@@ -23,16 +23,6 @@ void walk(int left, int right) {
   dxl2.setGoalVelocity(DXL_ID2, r, UNIT_RAW);
 }
 
-// get dynamixel linear velocity based on angular velocity
-float getDynaVelocity(int a) {
-  float R = 26.0; 
-  float rpm = (114.0 * a) / 102.3;
-  float v = (2*PI*R*rpm)/1;
-
-  return v;
-}
-
-
 //Walk back function
 void back(int vel) {
   walk(-vel, -vel);
@@ -161,36 +151,6 @@ void DetectInclination() {
   }
 
   if (getup){freeze(50);set_servo(1, 10);getup=0;}
-}
-
-
-//detect accelerometer
-float DetectAccel() {
-  //sensor addres and value of Y axis of accelerometer
-  int16_t AcY=0;
-  int16_t AcZ=0;
-
-  //transmission on wire library
-  Wire.beginTransmission(0x68);
-  Wire.write(0x3D); //0x3D (ACCEL_YOUT_H)
-  Wire.endTransmission(false);
-  Wire.requestFrom(0x68, 4, true); //each axis value is stored in 2 registers
-
-  AcY = (Wire.read() << 8 | Wire.read()); // Y-axis value
-  AcZ = (Wire.read() << 8 | Wire.read()); // Z-axis value
-
-  // Serial.print("Y: ");
-  // Serial.println(AcY);
-  // Serial.print("Z: ");
-  // Serial.println(AcZ);
-
-  //vector product of gravity and robot acceleration
-  float teta = atan((float)AcY / (float)AcZ);
-
-  //conversion to degrees
-  float teta_ang = teta*180/PI;
-  accel_f += (teta_ang - accel_f)*KF;
-  return teta_ang;
 }
 
 

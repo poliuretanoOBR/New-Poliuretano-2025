@@ -38,57 +38,6 @@ void walk_distance(float d)//function used to make the robot walk to a specific 
   freeze(100);
 }
 
-
-
-void scanner(int area_scanned,int apt,float dist_to_ball)//scanning function used to scan an area it receives the area to scan and apt(angles per turn)
-{
-  
-  int cont_b = 0; //ball counter
-  
-  for(int i = 0; i < area_scanned; i+=apt)
-  {
-    //     get_vbt(); 
-    //     prev_vb = vb;
-    //     prev_vt = vt;
-    //     get_vbt();
-    //     delta_vb = prev_vb - vb;
-    //     delta_vt = prev_vt - vt;
-
-    vb = getUltra(4); // Read the bottom US 
-
-    if ( vb < dist_to_ball && vb > 0.0) cont_b++;//if the bot us value is lower than 25.0cm adds to the ball counter
-    else cont_b = 0;//else it resets the ball counter
-    
-
-
-    if( cont_b > 1) //if the ball counter gets higher or equal 2 it is a victim
-    {
-      Serial.println("VB:");
-      Serial.println(vb);
-      freeze(100);//stop for 100 millisecons  
-      LEDcontrol(0,0,1);//uses array LED for debug
-
-      float b_dist = 0.95*vb - 5.0; //go to balls
-      
-      walk_distance( b_dist );
-      SwallowBalls();//catches the victim
-      walk_distance(-b_dist);
-      LEDcontrol(0,0,0);//turns off LED
-    }
-
-    walk(-SWL, SWR);
-    Simple_turn(apt);//turns apt
-
-  }
-   
-  update_angle(area_scanned);
-  freeze(50);
-  
-}
-
-
-
-
 void go_to_angle(int f_angle)//function used to make the robot go to an specific angle starting on its current angle
 {
   int delta_angle = f_angle - c_angle;//get angle variation (delta_angle)

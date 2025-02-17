@@ -108,9 +108,6 @@
 #define TOUCH1 31 //left touch sensor
 #define TOUCH2 29 //right touch sensor
 
-//front touch port
-#define FTOUCH 45 //front touch
-
 //debug button
 #define BUTTON 23 
 #define SAIDA 1
@@ -125,36 +122,8 @@
 #define OPENL 58 //opens for left
 #define OPENR 120 // opens for right
 
-float DIST = 14.5; 
-
 //battery value
 int battery = 0;
-
-//room3 variables
-int tc = 0;
-float t = 0.0;// gets a media of top US
-float val_bot = 0, val_top = 0, prev_detec_top=0, prev_detec_bot=0, prev_detec_top_2=0;
-float media_movel_top[5], val_media_movel_top=0;
-float diff=0, prev_diff=0;
-int edge_state = 0, media_cantos[3], edge_confirm = 0;
-int cont = 0, a=0, cont_tri=0, cont_canto=0;
-int map_corner[3] = {-1, -1, -1}; //map_corner: front, left, right. 0 is exit, 1 triangleint map_room [8] = {0,-1,-1,-1,-1,-1,-1,-1}; //0=entrada, 1=wall
-int map_room [8] = {0,-1,-1,-1,-1,-1,-1,-1}; //0=entrada, 1=wall
-int mapper=1;
-int cont_edge = 0, cont_cont = 0, ex=0; 
-bool ra = 0, Ro=true, st_tri=0, st_confirm=0;
-bool saida = false, config=false, color_detected=0, exit_state=0;
-int triangle = 0, ctri=0;
-int cont_a = 0; //accelerometer counter
-int accel_f = 0;
-int ram = 0, victims=0, dels1=0, dels2=0, turns=0, ao=0, flag_ex=-9000, inc = 0;
-float sum_diff=0, variacao_top=0, dball=0;
-int _size=0;
-long prev_ctri=0;
-float val_left = 0.0;
-float val_right =0.0;
-float mTri[3]={0.0, 0.0, 0.0};
-bool surprise=0;
 
 // Test room 3 variables
 float vt = 0.0 ,vb = 0.0,vl = 0.0,vr = 0.0,prev_vb = 0.0,prev_vt = 0.0, media_vb = 0.0, media_vt = 0.0, media_vl = 0.0, media_vr = 0.0, delta_vb = 0.0,delta_vt = 0.0,delta_mbt = 0.0;
@@ -186,7 +155,6 @@ double previous_error=0; //"previous run" timer
 int ers, rs, ms, ls, els, count_u = 0;   // Middle, left, right, external left and external right sensor defined
 int rr, rl, gr, gl, br, bl; // Creates the color sensor variables, in RGB for each side
 int red_rescue, green_rescue, blue_rescue; // Creates the color sensor variables, in RGB (rescue)
-int MIS();
 int ram2 = 0; //
 
 const int DXL_DIR_PIN = 53; // direction PIN
@@ -216,7 +184,6 @@ void CalculateErrorGyro();
 void turn(int alfa);
 void oldturn(int alfa);
 void Simple_turn(int alfa); 
-float DetectAccel();
 
 //Mercury sensor function
 void DetectInclination();
@@ -276,7 +243,6 @@ void left(int vel);
 void freeze(int del);
 
 void walk_straight(int s);
-float getDynaVelocity(int a);
 
 void back_forth(int times, int del);
 
@@ -297,8 +263,6 @@ void Servo_ipos();
 void Room3();
 void DetectRoom();
 void Deposit_alive();
-void adjust_on_wall();
-void go_to_middle();
 void check_exit();
 void toExit(int edge);
 void NPU_DetectRoom();
@@ -308,7 +272,6 @@ float getMaxLeftRight();
 void distsLR();
 
 void touch(int lim_p);
-int front_touch(int lim_f);
 
 int detectTri();
 
@@ -336,20 +299,13 @@ void go_to_mid_120();
 void New_Room();
 void scan_front();
 //room3 new ver
-void scan_edge_2();
-void national_room();
 float getmnUltra(int u, int den);
 void go_to_distnb(float);
 int getmsharp(int i);
 
-
 //rescue
 void SwallowBalls();
-void GotoBalls();
 void scan_turn(int alfa, float dist_to_ball);
-void BackMiddle(int d1, int t, int d2);
-
-void swoosh();
 
 // Test 2:
 void go_to_dist(float);
@@ -455,7 +411,7 @@ void setup() {
 // bool asdv = 1;
 
 void loop() {
-  circle_path(10.0, 2*PI);
+  New_Room();
   while(1);
   if (millis() - flag_loop > 20) {
     while (0) {
@@ -471,7 +427,6 @@ void loop() {
       // turn(-270);
       // walk(SWL, SWR);
       // readLED();
-      // NPU_Detectoom();
       // color_print();
       // Serial.println(getmUltra(3, 15));s
       // Serial.println(analogRead(A0));

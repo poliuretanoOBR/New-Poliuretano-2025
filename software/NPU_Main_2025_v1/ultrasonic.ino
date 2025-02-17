@@ -67,58 +67,6 @@ double getUltra(int u) {
    }
 }
 
-void dists(int d){
-  //goes to right or left based on the value of d
-  if(d == -1){
-    walk(1000, -1000);
-    delay(35);
-  }
-  else if(d == 1){
-    walk(-1000, 1000);
-    delay(35);
-  }
-
-  //stops
-  walk(0, 0);
-  delay(30);
-  val_bot = 0;
-  
-  for(int i = 0; i < 15; i++){
-    float med = 0;
-    med = getUltra(4);
-    
-    //if ultrasonic value is too high or too low it sets as -1
-    if(med == 0 || med >  105){
-      i = 21;
-      val_bot = -1;
-    }
-    else {
-      val_bot += med; //sum of raw value
-    }
-  }
-
-  //waiting for stability
-  delay(10);
-  val_top = 0;
-
-  for(int i = 0; i < 15; i++){
-    float med = 0;
-    med = getUltra(3);
-
-    //if ultrasonic value is too high or too low it sets as -1
-    if(med == 0 || med > 105){
-      i = 21;
-      val_top = -1;
-    }
-    else {
-      val_top += med; //sum of raw value
-    }
-  }
-
-  if(val_bot!=-1)val_bot /= 15;
-  if(val_top!=-1)val_top /= 15;
-
-}
 
 float getMaxLeftRight() {
    val_left = 0.0;
@@ -133,47 +81,6 @@ float getMaxLeftRight() {
    }
 }
 
-void distsLR() {
-  //stops
-  walk(0, 0);
-  delay(30);
-  val_left = 0.0;
-  
-  for(int i = 0; i < 15; i++){
-    float med = 0;
-    med = getUltra(1);
-    
-    //if ultrasonic value is too high or too low it sets as -1
-    if(med == 0 || med >  120){
-      i = 21;
-      val_left = -1;
-    }
-    else {
-      val_left += med; //sum of raw value
-    }
-  }
-
-  //waiting for stability
-  delay(10);
-  val_right = 0.0;
-
-  for(int i = 0; i < 15; i++){
-    float med = 0;
-    med = getUltra(3);
-
-    //if ultrasonic value is too high or too low it sets as -1
-    if(med == 0 || med > 120){
-      i = 21;
-      val_right = -1;
-    }
-    else {
-      val_right += med; //sum of raw value
-    }
-  }
-
-  if(val_right!=-1)val_right /= 15;
-  if(val_left!=-1)val_left /= 15;
-}
 
 //if  detects obstacle with top sensor 5 times in a row, starts obstacle function
 void getObstacle() {
@@ -637,6 +544,19 @@ float getmUltra(int u, int den)//function used to get the media of an us sensor
       float aux = getUltra(u);
       if(aux != 0.0) m_ultra += aux;
       else m_ultra += 200;
+      delay(3);
+   }
+   return m_ultra/den; 
+}
+
+float getmnUltra(int u, int den)//function used to get the media of an us sensor
+{
+   float m_ultra = 0.0;
+   for(int i = 0; i < den; i++)
+   {
+      float aux = getUltra(u);
+      if(aux != 0.0) m_ultra += aux;
+      else m_ultra = -1;
       delay(3);
    }
    return m_ultra/den; 

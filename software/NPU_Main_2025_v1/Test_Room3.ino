@@ -236,26 +236,6 @@ void go_to_tri()
   walk_distance(vb*0.95);
 }
 
-int front_touch(int lim_f)
-{
-  tri = 0;
-  unsigned long flag_f = millis();
-  while (!digitalRead(FTOUCH))// Until the two sensors touch the wall
-  {
-      Serial.print(digitalRead(FTOUCH));
-      walk(SWL,SWR); // while the back buttons dont touch the wall make the robot go back
-     if(digitalRead(FTOUCH))
-     {
-      tri = 1;
-      return tri;
-     }
-     if(millis() - flag_f > lim_f)
-     {
-      return tri;
-     }
-  }
-  freeze(100);
-}
 
 //uses the color sensor for rescue. 1 for green, 2 for red and 0 is wall
 int detectTri() {
