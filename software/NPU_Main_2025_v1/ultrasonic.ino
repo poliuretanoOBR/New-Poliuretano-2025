@@ -81,6 +81,32 @@ float getMaxLeftRight() {
    }
 }
 
+float getmUltra(int u, int den)//function used to get the media of an us sensor
+{
+   float m_ultra = 0.0;
+   for(int i = 0; i < den; i++)
+   {
+      float aux = getUltra(u);
+      if(aux != 0.0) m_ultra += aux;
+      else m_ultra += 200;
+      delay(3);
+   }
+   return m_ultra/den; 
+}
+
+//negative media
+float getmnUltra(int u, int den)//function used to get the media of an us sensor
+{
+   float m_ultra = 0.0;
+   for(int i = 0; i < den; i++)
+   {
+      float aux = getUltra(u);
+      if(aux != 0.0) m_ultra += aux;
+      else m_ultra = -1;
+      delay(3);
+   }
+   return m_ultra/den; 
+}
 
 //if  detects obstacle with top sensor 5 times in a row, starts obstacle function
 void getObstacle() {
@@ -536,28 +562,3 @@ void Obstacle(char c) {
    freeze(25);
 }
 
-float getmUltra(int u, int den)//function used to get the media of an us sensor
-{
-   float m_ultra = 0.0;
-   for(int i = 0; i < den; i++)
-   {
-      float aux = getUltra(u);
-      if(aux != 0.0) m_ultra += aux;
-      else m_ultra += 200;
-      delay(3);
-   }
-   return m_ultra/den; 
-}
-
-float getmnUltra(int u, int den)//function used to get the media of an us sensor
-{
-   float m_ultra = 0.0;
-   for(int i = 0; i < den; i++)
-   {
-      float aux = getUltra(u);
-      if(aux != 0.0) m_ultra += aux;
-      else m_ultra = -1;
-      delay(3);
-   }
-   return m_ultra/den; 
-}

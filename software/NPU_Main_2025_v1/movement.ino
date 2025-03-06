@@ -192,6 +192,7 @@ void back_forth(int times, int del)
   freeze(25);
 }
 
+
 //d/(v2/v1-1) = r 
 // d/r + 1  = v2/v1
 // d/r + 1 = 1/coeff

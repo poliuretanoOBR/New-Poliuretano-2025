@@ -152,28 +152,6 @@ bool right_green() {
   else return false;
 }
 
-//detects green on the left side
-bool oldleft_green() {
-  bool RED_l = in_range(rl, LRCSV, TOL); // Define RED_l as bool
-  bool GREEN_l = in_range(gl, LGCSV, TOL); // Define GREEN_l as bool
-  bool BLUE_l = in_range(bl, LBCSV, TOL); // Define BLUE_l as bool
-
-  //if everything is in the range of being green, return true
-  if(RED_l == 1 && GREEN_l == 1 && BLUE_l == 1) return true; 
-  else return false;
-}
-
-
-bool oldright_green() {
-  bool RED_r = in_range(rr,RRCSV,TOL); // Define RED_r as bool
-  bool GREEN_r = in_range(gr,RGCSV,TOL); // Define GREEN_r as bool
-  bool BLUE_r = in_range(br,RBCSV,TOL); // Define BLUE_r as bool
-
-  //if everything is in the range of being green, return true
-  if(RED_r == 1 && GREEN_r == 1 && BLUE_r == 1) return true; 
-  else return false;
-}
-
 bool dead_end() {
   // If left_green and right_green are true, there are 2 greens
   if(left_green() == true && right_green() == true) return true;

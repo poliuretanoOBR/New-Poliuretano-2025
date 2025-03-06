@@ -8,6 +8,7 @@
 #define SERVO1 3 //servo port
 #define SERVO2 4 //servo port
 #define SERVO3 6 //servo port
+#define SERVO4 999 //servo port
 
 //ultrasonic ports
 #define ECHO1 41//echo ultrasonic left
@@ -21,12 +22,12 @@
 
 //mercury port
 #define MERC 40
+#define MERC2 440
+
 //line constants
 #define BLACK 500 //value of the black line
 #define MIDDLE_BLACK 350 //value of the black line for the middle sensor
 #define WHITE 100 //value of the white line
-#define SILVER_GREEN 800
-#define MWHITE 36 // Media of the refletance sensor when in white
 
 //array ports
 #define ERS A2 // external right sensor in the analog 2
@@ -46,6 +47,8 @@
 #define GREEN_RESCUE 36 // Green LED in the 36 port (rescue)
 #define BLUE_RESCUE 38 // Blue LED in the 38 port (rescue)
 
+
+
 //test room3 directives
 
 //90x90
@@ -54,6 +57,8 @@
 
 //120x90
 #define R_MID_120 54.0  //middle distance
+
+
 
 //old green detection
 #define TOL 50 //Creates the value of tolerance for the color values
@@ -68,14 +73,16 @@
 #define REFERENCE_DELTA_LEFT 27 //value of delta on green - 10
 #define REFERENCE_DELTA_RIGHT 31 //value of delta on green - 10
 
+
+
 //Board led ports
 #define LEDG 22 //define green led port
 #define LEDR 24 //define red led port
 
+
+
 //constants of proportional, integral and derivative
 #define KP 3.9  //percentage of proportional band
-#define KP2 6.0 //KP for hyphotetical array
-#define KPGYRO 0.675 //percentage of proportional band at gyroscope
 #define KI 0.00 //inverse of integral time
 #define KD 0.5 //derivative of error
 
@@ -90,37 +97,54 @@
 #define WE 2.0 //outer sensors weight aproximation
 #define WI 1.0 //inner sensors weight aproximation
 
+
+
 //battery port
 #define BAT A15
+
+
 
 //dynamixel configuration
 #define DEBUG_SERIAL Serial   // Serial for debug (USB)
 #define DXL_SERIAL Serial3  // Serial for dynamixel
 
+
+
 //buzzer port
 #define BUZZER 8 //buzzer port
+
+
 
 //gyroscope average error on z axis
 #define GYZ_ERROR 0.0
 //-261.42
 
+
+
 //touch sensors ports
 #define TOUCH1 31 //left touch sensor
 #define TOUCH2 29 //right touch sensor
+
+
 
 //debug button
 #define BUTTON 23 
 #define SAIDA 1
 
+
+
 //straight walking
 #define SWL 505
 #define SWR 517
+
+
 
 //opening positions for the separator
 #define DEPL 160 //deposit left
 #define DEPR 20 //deposit right
 #define OPENL 58 //opens for left
 #define OPENR 120 // opens for right
+
 
 //battery value
 int battery = 0;
@@ -134,7 +158,7 @@ float media_sp = 0.0;
 int s=0;
 float max_top = 0.1, maxlat = 0.1;
 
-//NEW Room 3 variables
+//OLD Room 3 variables
 int rooms = 0, roomL=0, roomF=0;
 bool special = 0;
 
@@ -165,28 +189,36 @@ const float DXL_PROTOCOL_VERSION = 1.0;
 
 int ent_s = 0, avs=0, dvs = 0, balls=0;
 
+
+
 //dynamixel objects
 Dynamixel2Arduino dxl(DXL_SERIAL, DXL_DIR_PIN);
 Dynamixel2Arduino dxl2(DXL_SERIAL, DXL_DIR_PIN);
+
+
 
 //Servo objects
 Servo s1;
 Servo s2;
 Servo s3;
+Servo s4;
 
 //dynamixel controltable items
 using namespace ControlTableItem;
+
+
+
 
 //declaring functions:
 
 //gyroscope/aceletometer functions
 void CalculateErrorGyro();
 void turn(int alfa);
-void oldturn(int alfa);
 void Simple_turn(int alfa); 
 
 //Mercury sensor function
 void DetectInclination();
+
 
 // Optic:
 
@@ -211,8 +243,6 @@ int NOSIB();
 
 bool left_green();
 bool right_green();
-bool oldleft_green();
-bool oldright_green();
 bool dead_end();
 
 bool in_range(int read_value, int ref_value, int tol);
@@ -242,8 +272,6 @@ void left(int vel);
 
 void freeze(int del);
 
-void walk_straight(int s);
-
 void back_forth(int times, int del);
 
 //crossroad
@@ -252,6 +280,8 @@ void analyze_green();
 // Obstacle and Ultrassonic
 double getUltra(int u);
 float getmUltra(int u, int den);
+float getmnUltra(int u, int den);
+float getMaxLeftRight();
 void getObstacle();
 void Obstacle(char c);
 
@@ -260,16 +290,9 @@ void set_servo (int n, int f_pos);
 void Servo_ipos();
 
 // Room 3 and rescue
-void Room3();
-void DetectRoom();
-void Deposit_alive();
 void check_exit();
-void toExit(int edge);
-void NPU_DetectRoom();
 
-void dists(int d);
-float getMaxLeftRight();
-void distsLR();
+
 
 void touch(int lim_p);
 
@@ -288,7 +311,6 @@ void scan_edge();
 void scan_exit();
 void confirm_exit();
 void get_vbt();
-void print_all();
 void print_vbt();
 void go_to_angle(int f_angle);
 void update_angle(int ang);
@@ -297,9 +319,7 @@ void deposit(bool a);
 //NEW Room 3 Functions
 void go_to_mid_120();
 void New_Room();
-void scan_front();
 //room3 new ver
-float getmnUltra(int u, int den);
 void go_to_distnb(float);
 int getmsharp(int i);
 
@@ -318,12 +338,10 @@ void setup() {
   s1.attach(SERVO1);
   s2.attach(SERVO2);
   s3.attach(SERVO3);
+  // s4.attach(SERVO4);
 
   // Set initial position for the three Servos
   Servo_ipos();
-  s3.write(80);
-  s2.write(180);
-  s1.write(10);
 
   //Initialize Wire communication
   Wire.begin();
@@ -362,6 +380,7 @@ void setup() {
 
   //pinmodes
   pinMode(MERC, INPUT);
+  // pinMode(MERC2, INPUT);
   
   //ultrasonic
   pinMode(ECHO1, INPUT);
