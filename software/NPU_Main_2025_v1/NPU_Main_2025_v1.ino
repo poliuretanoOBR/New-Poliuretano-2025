@@ -183,9 +183,9 @@ int ram2 = 0; //
 
 const int DXL_DIR_PIN = 53; // direction PIN
  
-const uint8_t DXL_ID = 6;
-const uint8_t DXL_ID2 = 4;
-const float DXL_PROTOCOL_VERSION = 1.0;
+const uint8_t DXL_ID = 1;
+const uint8_t DXL_ID2 = 2;
+const float DXL_PROTOCOL_VERSION = 2.0;
 
 int ent_s = 0, avs=0, dvs = 0, balls=0;
 
