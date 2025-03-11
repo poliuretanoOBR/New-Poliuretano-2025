@@ -102,6 +102,8 @@
 //battery port
 #define BAT A15
 
+#define DIST 13.5
+
 
 
 //dynamixel configuration
@@ -156,7 +158,7 @@ unsigned long delta_timer_balls = 0;
 bool room_clear = 0;
 float media_sp = 0.0;
 int s=0;
-float max_top = 0.1, maxlat = 0.1;
+float max_top = 0.1, maxlat = 0.1, t=0.0, tc=0.0;
 
 //OLD Room 3 variables
 int rooms = 0, roomL=0, roomF=0;
@@ -165,7 +167,7 @@ bool special = 0;
 bool paredes[12], ent_m=0;
 
 //room3 national variables
-int position=0;
+int position=0, cont_tri=0;
 bool side[4] = {0, 0, 0, 0};
 int l=0;
 int l_120 = 0;
@@ -179,7 +181,7 @@ double previous_error=0; //"previous run" timer
 int ers, rs, ms, ls, els, count_u = 0;   // Middle, left, right, external left and external right sensor defined
 int rr, rl, gr, gl, br, bl; // Creates the color sensor variables, in RGB for each side
 int red_rescue, green_rescue, blue_rescue; // Creates the color sensor variables, in RGB (rescue)
-int ram2 = 0; //
+int ram = 0; //
 
 const int DXL_DIR_PIN = 53; // direction PIN
  
@@ -291,8 +293,6 @@ void Servo_ipos();
 
 // Room 3 and rescue
 void check_exit();
-
-
 
 void touch(int lim_p);
 
@@ -426,109 +426,9 @@ void setup() {
   flag_loop = millis();
 }
 
-//debug for room3
-// bool asdv = 1;
-
 void loop() {
-  New_Room();
-  while(1);
   if (millis() - flag_loop > 20) {
     while (0) {
-      // int iasTri = 0;
-
-      // for (int i = 0; i < 10; i++) {  
-      //   iasTri += analogRead(0);
-      // }
-      // iasTri = (int)(iasTri/10);
-      // Serial.println(iasTri);
-      // Serial.println(digitalRead(MERC));
-      // touch(1000);
-      // turn(-270);
-      // walk(SWL, SWR);
-      // readLED();
-      // color_print();
-      // Serial.println(getmUltra(3, 15));s
-      // Serial.println(analogRead(A0));
-      // color_print();
-      // readLED();
-      // array_read();
-      // array_print();
-      // if(els < 400 && ls < 400 && rs < 400 && ers < 400 && ms < 400) {
-      //   if (rr < 800 && rl < 800 && gr < 800 && gl < 800 && br < 800 && bl < 800)s++;
-      //   else s--;
-      // }
-      // else s--;
-      // if(s<0)s=0;
-      // if(s>60){
-      //   freeze(10);
-      //   while(1);
-      // }
-      // delay(15);
-      // if(NOSIB()>0){
-      //   freeze(10);
-      //   while(1);
-      // }
-    }
-
-    // if (asdv){New_Room();asdv=0;}
-
-    while (0) {
-      //  //buzzer test
-      // c //D# -2
-
-      //  //victim sensor test
-      // Serial.println(analogRead(A0));
-
-      //  //ultrasonic test
-      // Serial.println(getUltra(1));
-      // delay(250);
-      // Serial.println(getmUltra(2, 15));
-      // delay(250);
-      Serial.println(getmUltra(3, 15));
-      delay(250);
-      // Serial.println(getmUltra(4, 15));
-      // delay(250);
-      // Serial.println(" ");
-      // delay(500); 
-
-      // national_room();
-      // while(1);
-
-      // turn(-90);
-      // delay(1000);
-      
-      //  //touch sensor test
-      // touch(10000);
-      // Serial.println(digitalRead(TOUCH2));
-      // Serial.println(digitalRead(TOUCH1));
-
-      //  //swallow balls test
-      //  SwallowBalls();
-    
-      //  //walk straight test
-      // walk(SWL,SWR);
-    
-      //  //array
-      // array_read();
-      // array_print();
-      // readLED();
-      // color_print();
-      // LEDcontrol(0,1,0);
-
-      //  //inclination
-      // Serial.println(digitalRead(MERC));
-
-      // // print rescue led
-      // readLEDRescue();
-      // Serial.println("R G B");
-      // Serial.print(red_rescue);
-      // Serial.print(" ");
-      // Serial.print(green_rescue);
-      // Serial.print(" ");
-      // Serial.println(blue_rescue);
-      // Serial.println(" ");
-      // Serial.println(digitalRead(TOUCH1));
-
     }
 
     //battery alert and array read
@@ -552,11 +452,6 @@ void loop() {
 
     // Normal line follower
     else {
-      //search for room3
-      if(room_clear == 0)NPU_DetectRoom();
-      else{
-       s=0;
-      }
 
       //line follower
       PIDwalk(0.6);
@@ -570,7 +465,6 @@ void loop() {
       //search for finish line
       finish_line();
     }
-    // Serial.println(s);
       
     // Wait 5ms for next cycle
     flag_loop = millis();

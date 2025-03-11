@@ -1104,7 +1104,7 @@ void go_to_dist (float final_d)// Function used to make the robot go to a distan
 void walk_distance(float d)//function used to make the robot walk to a specific distance based on experiments
 {
   int sign = abs(d) / d; //if sign is negative makes the robot walk back
-  walk(540*sign,500*sign);
+  walk(140*sign,130*sign);
   delay((int)(125*abs(d)));
   freeze(100);
 }

@@ -6,7 +6,7 @@ void analyze_green() {
 
 
   //starts walking while looking for green
-  walk(400, 400);
+  walk(100, 100);
 
   //if it detects green once, keeps the information
   for (int i = 0; i < 10; i++) {
@@ -16,7 +16,7 @@ void analyze_green() {
       delay(10);
       readLED();
     }
-    else walk(300, 300);
+    else walk(80, 80);
 
     //condition for green: green is the lowest value on the color read and red value is higher than blue
     if(gl < rl && gl < bl && rl > bl && higher(rl, gl, bl)-lower(rl, gl, bl)>=20){
@@ -39,9 +39,9 @@ void analyze_green() {
 
     //turn on the green led and turns until it's on a black line
     digitalWrite(LEDG, 1);
-    turn(-140);
+    turn(-150);
     while (ls < BLACK){
-      right(600);
+      right(150);
       array_read();
     }
 
@@ -61,11 +61,11 @@ void analyze_green() {
 
     //turn on the green led and turns until it's on a black line
     digitalWrite(LEDG, 1);
-    walk(600, 600);
+    walk(150, 150);
     delay(200); 
     turn(70);
     while (rs < BLACK){
-      left(700);
+      left(150);
       array_read();
     }
 
@@ -84,11 +84,11 @@ void analyze_green() {
 
     //turn on the green led and turns until it's on a black line
     digitalWrite(LEDG, 1);
-    walk(600, 600);
+    walk(150, 150);
     delay(200);
     turn(-70);
     while (ls < BLACK){
-      right(600);
+      right(150);
       array_read();
     }
 

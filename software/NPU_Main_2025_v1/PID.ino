@@ -54,10 +54,10 @@ void PIDwalk(float a) {
   if ((ms > MIDDLE_BLACK && els > BLACK) || (ms > MIDDLE_BLACK && ers > BLACK))u = 0;
   
   //debug for when motor reverts
-  if (u > 1023 || u < -1023) digitalWrite(LEDG, 1);
+  if (u > 265 || u < -265) digitalWrite(LEDG, 1);
   else digitalWrite(LEDG, 0);
   
   //walks
-  if (u > 0) walk((1023 - u)*a, 1023*a);
-  else walk(1023*a, (1023 + u)*a);
+  if (u > 0) walk((265 - u)*a, 265*a);
+  else walk(265*a, (265 + u)*a);
 }

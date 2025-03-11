@@ -1,5 +1,5 @@
 //Walk function
-void walk(int left, int right) {
+void old_walk(int left, int right) {
   int l, r;
 
   //limits the input to 1023
@@ -18,9 +18,24 @@ void walk(int left, int right) {
     r = right + 1024; //right is slightly faster, so needs a small correction for the straight walk
   } else r = abs(right);
 
+  float auxl, auxr;
+  auxl = l*0.229;
+  auxr = r*0.229;
+  l = auxl;
+  r = auxr;
+
+
   //aplies the function
-  dxl.setGoalVelocity(DXL_ID, l, UNIT_RAW);
-  dxl2.setGoalVelocity(DXL_ID2, r, UNIT_RAW);
+  dxl.setGoalVelocity(DXL_ID, l);
+  dxl2.setGoalVelocity(DXL_ID2, r);
+}
+
+void walk(int rpml, int rpmr)
+{
+  if(rpml > 265) rpml = 265;
+  if(rpmr > 265) rpmr = 265;
+  dxl.setGoalVelocity(DXL_ID, rpml);
+  dxl2.setGoalVelocity(DXL_ID2, rpmr);
 }
 
 //Walk back function

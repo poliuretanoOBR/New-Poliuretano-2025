@@ -69,8 +69,8 @@ double getUltra(int u) {
 
 
 float getMaxLeftRight() {
-   val_left = 0.0;
-   val_right = 0.0;
+   float val_left = 0.0;
+   float val_right = 0.0;
 
    for (int i = 0; i < 20; i++) {
       float aux=getUltra(1);
@@ -158,10 +158,10 @@ void Obstacle(char c) {
    flag = millis();
    while(els<=BLACK && ers<=BLACK && millis()-flag<800){
       array_read();
-      walk(-600, -600);
+      walk(-150, -150);
    }
-   if(ers<=BLACK && millis()-flag<800){while(ers<=BLACK && millis()-flag<800){array_read();walk(0, -600);}}
-   if(els<=BLACK && millis()-flag<800){while(els<=BLACK && millis()-flag<800){array_read();walk(-600, 0);}}
+   if(ers<=BLACK && millis()-flag<800){while(ers<=BLACK && millis()-flag<800){array_read();walk(0, -150);}}
+   if(els<=BLACK && millis()-flag<800){while(els<=BLACK && millis()-flag<800){array_read();walk(-150, 0);}}
 
    //reads the side ultrasonic value
    dl = getUltra(obs==1 ? 1 : 2);
@@ -226,7 +226,7 @@ void Obstacle(char c) {
          turn(-90*obs);
 
          //walks back what it has gone forward
-         walk(-600, -600);
+         walk(-150, -150);
          delay(200);
          //does pid very slowly
          flag_u = millis();
@@ -261,7 +261,7 @@ void Obstacle(char c) {
          turn(-90*obs);
 
          //walks back what it has gone forward
-         walk(-600, -600);
+         walk(-150, -150);
          delay(200);
 
          //does pid very slowly
@@ -297,7 +297,7 @@ void Obstacle(char c) {
          turn(-90*obs);
 
          //walks back what it has gone forward
-         walk(-600, -600);
+         walk(-150, -150);
          delay(200);
          //does pid very slowly
          flag_u = millis();
@@ -341,7 +341,7 @@ void Obstacle(char c) {
          turn(-90*obs);
 
          //walks back what it has gone forward
-         walk(-600, -600);
+         walk(-150, -150);
          delay(200);
          //does pid very slowly
          flag_u = millis();
@@ -394,7 +394,7 @@ void Obstacle(char c) {
          turn(-90*obs);
 
          //walks back what it has gone forward
-         walk(-600, -600);
+         walk(-150, -150);
          delay(200);
          //does pid very slowly
          flag_u = millis();
@@ -430,7 +430,7 @@ void Obstacle(char c) {
          turn(-90*obs);
 
          //walks back what it has gone forward
-         walk(-600, -600);
+         walk(-150, -150);
          delay(200);
 
          //does pid very slowly
@@ -466,7 +466,7 @@ void Obstacle(char c) {
          turn(-90*obs);
 
          //walks back what it has gone forward
-         walk(-600, -600);
+         walk(-150, -150);
          delay(200);
          //does pid very slowly
          flag_u = millis();
@@ -510,7 +510,7 @@ void Obstacle(char c) {
          turn(-90*obs);
 
          //walks back what it has gone forward
-         walk(-600, -600);
+         walk(-150, -150);
          delay(500);
          //does pid very slowly
          flag_u = millis();
@@ -555,7 +555,7 @@ void Obstacle(char c) {
    }
 
    //walks back what it has gone forward
-   walk(-600, -600);
+   walk(-150, -150);
    delay(500);
    
    walk(0,0);
