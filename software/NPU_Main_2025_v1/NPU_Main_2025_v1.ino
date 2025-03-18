@@ -424,11 +424,22 @@ void setup() {
   pinMode(TOUCH2, INPUT_PULLUP);
   
   flag_loop = millis();
+
+  dxl.torqueOff(DXL_ID);
+  dxl2.torqueOff(DXL_ID2);
+  dxl.setOperatingMode(DXL_ID, OP_EXTENDED_POSITION);
+  dxl2.setOperatingMode(DXL_ID2, OP_EXTENDED_POSITION);
+  dxl.torqueOn(DXL_ID);
+  dxl2.torqueOn(DXL_ID2);
 }
+
+
 
 void loop() {
   if (millis() - flag_loop > 20) {
-    while (0) {
+    while (1) {
+      revolution(2, 2);
+      while(1);
     }
 
     //battery alert and array read
