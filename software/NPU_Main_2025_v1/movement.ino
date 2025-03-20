@@ -34,8 +34,11 @@ void walk(int rpml, int rpmr)
 {
   if(rpml > 265) rpml = 265;
   if(rpmr > 265) rpmr = 265;
-  dxl.setGoalVelocity(DXL_ID, rpml);
-  dxl2.setGoalVelocity(DXL_ID2, rpmr);
+  if(rpml < -265) rpml = -265;
+  if(rpmr < -265) rpmr = -265;
+
+  dxl2.setGoalVelocity(DXL_ID2, rpml);
+  dxl.setGoalVelocity(DXL_ID, -rpmr);
 }
 
 //Walk back function

@@ -76,23 +76,23 @@
 
 
 //Board led ports
-#define LEDG 22 //define green led port
-#define LEDR 24 //define red led port
+#define LEDG 24 //define green led port
+#define LEDR 22 //define red led port
 
 
 
 //constants of proportional, integral and derivative
-#define KP 3.9  //percentage of proportional band
+#define KP 100.0  //percentage of proportional band
 #define KI 0.00 //inverse of integral time
-#define KD 0.5 //derivative of error
+#define KD 0.0 //derivative of error
 
 //maximum and minimum values of i
 #define MIN_INTEGRAL -100
 #define MAX_INTEGRAL 100
 
 //maximum and minimum values of u
-#define U_MIN -2040
-#define U_MAX 2040
+#define U_MIN -530
+#define U_MAX 530
 
 #define WE 2.0 //outer sensors weight aproximation
 #define WI 1.0 //inner sensors weight aproximation
@@ -425,21 +425,18 @@ void setup() {
   
   flag_loop = millis();
 
-  dxl.torqueOff(DXL_ID);
-  dxl2.torqueOff(DXL_ID2);
-  dxl.setOperatingMode(DXL_ID, OP_EXTENDED_POSITION);
-  dxl2.setOperatingMode(DXL_ID2, OP_EXTENDED_POSITION);
-  dxl.torqueOn(DXL_ID);
-  dxl2.torqueOn(DXL_ID2);
 }
 
 
 
 void loop() {
   if (millis() - flag_loop > 20) {
-    while (1) {
-      revolution(2, 2);
-      while(1);
+    while (0) {
+      // Serial.println(dxl.getPresentPosition(DXL_ID, UNIT_RAW));
+      // Serial.println(dxl2.getPresentPosition(DXL_ID2, UNIT_RAW));
+      array_read();
+      // array_print();
+      PIDwalk(0.6);
     }
 
     //battery alert and array read
@@ -447,35 +444,37 @@ void loop() {
     array_read();
 
     //detect when it goes up
-    DetectInclination();
+    // DetectInclination();
 
-    //Crossroad
-    if((ms >=  MIDDLE_BLACK && NOSIB() >= 2) || NOSIB()>=3) {
-      //Stop the robot when enters crossroad
-      back(1000);
-      delay(30);
-      back(500);
-      delay(100);
+    // //Crossroad
+    // if((ms >=  MIDDLE_BLACK && NOSIB() >= 2) || NOSIB()>=3) {
+    //   //Stop the robot when enters crossroad
+    //   back(1000);
+    //   delay(30);
+    //   back(500);
+    //   delay(100);
 
-      //analyzes green
-      analyze_green();
-    }
+    //   //analyzes green
+    //   analyze_green();
+    // }
 
-    // Normal line follower
-    else {
+    // // Normal line follower
+    // else {
 
-      //line follower
-      PIDwalk(0.6);
+    //   //line follower
+    //   PIDwalk(0.6);
 
-      //obstacle
-      getObstacle();
+    //   //obstacle
+    //   getObstacle();
       
-      //turns off all led
-      LEDcontrol(0, 0, 0);
+    //   //turns off all led
+    //   LEDcontrol(0, 0, 0);
 
-      //search for finish line
-      finish_line();
-    }
+    //   //search for finish line
+    //   finish_line();
+    // }
+
+    PIDwalk(0.6);
       
     // Wait 5ms for next cycle
     flag_loop = millis();

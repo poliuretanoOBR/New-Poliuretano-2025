@@ -58,6 +58,6 @@ void PIDwalk(float a) {
   else digitalWrite(LEDG, 0);
   
   //walks
-  if (u > 0) walk((265 - u)*a, 265*a);
-  else walk(265*a, (265 + u)*a);
+  if (u > 0) walk((265 + u)*a, 265*a);
+  else walk(265*a, (265 - u)*a);
 }
