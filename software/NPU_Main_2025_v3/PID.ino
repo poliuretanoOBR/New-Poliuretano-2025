@@ -51,13 +51,24 @@ void PIDwalk(float a) {
   //Serial.println(u);
   
   //if middle sensor and internal sensor of any side is on black, walk straight
-  if ((ms > MIDDLE_BLACK && els > BLACK) || (ms > MIDDLE_BLACK && ers > BLACK))u = 0;
+  if ((ms > MIDDLE_BLACK && ers > BLACK) || (ms > MIDDLE_BLACK && els > BLACK))
+  {
+    u=0;
+  }
   
   //debug for when motor reverts
   if (u > 265 || u < -265) digitalWrite(LEDG, 1);
   else digitalWrite(LEDG, 0);
-  
+  Serial.println(u);
   //walks
-  if (u > 0) walk((265 + u)*a, 265*a);
-  else walk(265*a, (265 - u)*a);
+  if (u > 0)
+  {
+    
+    walk((265-u)*a, 265*a);
+  }
+  else
+  {
+    walk(265*a, (265+u)*a);
+    
+  }
 }

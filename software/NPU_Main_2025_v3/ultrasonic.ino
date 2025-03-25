@@ -561,4 +561,3 @@ void Obstacle(char c) {
    walk(0,0);
    freeze(25);
 }
-

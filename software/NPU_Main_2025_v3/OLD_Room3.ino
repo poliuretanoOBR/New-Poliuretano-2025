@@ -2466,4 +2466,3 @@ void go_to_exit()
     walk(0, 0);
   }
 }
-

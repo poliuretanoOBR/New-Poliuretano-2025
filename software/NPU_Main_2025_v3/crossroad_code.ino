@@ -6,7 +6,7 @@ void analyze_green() {
 
 
   //starts walking while looking for green
-  walk(100, 100);
+  walk(150, 150);
 
   //if it detects green once, keeps the information
   for (int i = 0; i < 10; i++) {
@@ -39,9 +39,11 @@ void analyze_green() {
 
     //turn on the green led and turns until it's on a black line
     digitalWrite(LEDG, 1);
+    walk(150, 150);
+    delay(50);
     turn(-150);
     while (ls < BLACK){
-      right(150);
+      right(50);
       array_read();
     }
 
@@ -55,17 +57,19 @@ void analyze_green() {
 
   //if there's green on left side
   else if (leftgreen == 1) {
-    
+
     //ledcontrol for debug "there's a green"
     LEDcontrol(0,1,0);
+    walk(150, 150);
+    delay(50);
 
     //turn on the green led and turns until it's on a black line
     digitalWrite(LEDG, 1);
-    walk(150, 150);
+    walk(50, 50);
     delay(200); 
-    turn(70);
+    turn(60);
     while (rs < BLACK){
-      left(150);
+      left(100);
       array_read();
     }
 
@@ -81,14 +85,15 @@ void analyze_green() {
   else if (rightgreen == 1) {
     //ledcontrol for debug "there's a green"
     LEDcontrol(0,1,0);
-
+    walk(150, 150);
+    delay(50);
     //turn on the green led and turns until it's on a black line
     digitalWrite(LEDG, 1);
-    walk(150, 150);
+    walk(50, 50);
     delay(200);
-    turn(-70);
+    turn(-60);
     while (ls < BLACK){
-      right(150);
+      right(50);
       array_read();
     }
 
@@ -105,18 +110,18 @@ void analyze_green() {
     //ledcontrol for debug "there's NOT a green"
     LEDcontrol(0,0,1);
 
-    walk(-SWL, -SWR);
+    walk(-150, -150);
     delay(150);
     
     //does pid for a while
     unsigned long f = millis();
-    while (millis() - f < 1500) {
+    while (millis() - f < 1250) {
       array_read();
       PIDwalk(0.6);
       delay(5);
     }
 
-    //turns off ledcontrol for debug "there's NOTa green"
+    //turns off ledcontrol for debug "there's NOT a green"
     LEDcontrol(0,0,1);
   }
   

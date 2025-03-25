@@ -1,4 +1,4 @@
-//include libraries
+ //include libraries
 #include <Dynamixel2Arduino.h>
 #include <Wire.h>
 #include <Servo.h>
@@ -26,7 +26,7 @@
 
 //line constants
 #define BLACK 500 //value of the black line
-#define MIDDLE_BLACK 350 //value of the black line for the middle sensor
+#define MIDDLE_BLACK 750 //value of the black line for the middle sensor
 #define WHITE 100 //value of the white line
 
 //array ports
@@ -36,8 +36,8 @@
 #define LS A5 // Left sensor in the analog 5
 #define ELS A6 // external left sensor in the analog 6
 #define R A14 // Red LED in the A14 port
-#define G A13 // Green LED in the A13 port
-#define B A12 // Blue LED in the A12 port
+#define G A13// Green LED in the A13 port
+#define B A12// Blue LED in the A12 port
 #define RCS A7 // Right color sensor analog 7
 #define LCS A8 // Left color sensor analog 8
 
@@ -82,9 +82,9 @@
 
 
 //constants of proportional, integral and derivative
-#define KP 100.0  //percentage of proportional band
+#define KP 1.7 //percentage of proportional band
 #define KI 0.00 //inverse of integral time
-#define KD 0.0 //derivative of error
+#define KD 0.7 //derivative of error
 
 //maximum and minimum values of i
 #define MIN_INTEGRAL -100
@@ -178,6 +178,7 @@ unsigned long flag_loop = 0;
 double previous_error=0; //"previous run" timer
 
 //Optic variables
+
 int ers, rs, ms, ls, els, count_u = 0;   // Middle, left, right, external left and external right sensor defined
 int rr, rl, gr, gl, br, bl; // Creates the color sensor variables, in RGB for each side
 int red_rescue, green_rescue, blue_rescue; // Creates the color sensor variables, in RGB (rescue)
@@ -371,7 +372,6 @@ void setup() {
   
   // Turn off torque when configuring items in EEPROM area
   dxl.torqueOff(DXL_ID);
-  dxl2.torqueOff(DXL_ID2);
   dxl.setOperatingMode(DXL_ID, OP_VELOCITY);
   dxl2.setOperatingMode(DXL_ID2, OP_VELOCITY);
   dxl.torqueOn(DXL_ID);
@@ -430,13 +430,16 @@ void setup() {
 
 
 void loop() {
-  if (millis() - flag_loop > 20) {
-    while (0) {
+  if (millis() - flag_loop > 15) {
+    while (0) {    
+      array_read();
+      array_print();
+      // PIDwalk(0.75);
+      
+      // digitalWrite(A14, 0);
+      // color_print();
       // Serial.println(dxl.getPresentPosition(DXL_ID, UNIT_RAW));
       // Serial.println(dxl2.getPresentPosition(DXL_ID2, UNIT_RAW));
-      array_read();
-      // array_print();
-      PIDwalk(0.6);
     }
 
     //battery alert and array read
@@ -447,34 +450,32 @@ void loop() {
     // DetectInclination();
 
     // //Crossroad
-    // if((ms >=  MIDDLE_BLACK && NOSIB() >= 2) || NOSIB()>=3) {
-    //   //Stop the robot when enters crossroad
-    //   back(1000);
-    //   delay(30);
-    //   back(500);
-    //   delay(100);
+     if((ms >=  MIDDLE_BLACK && NOSIB() >= 2) || NOSIB()>=3) {
+       //Stop the robot when enters crossroad
+       back(205);
+       delay(100);
+       back(100);
+       delay(100);
 
-    //   //analyzes green
-    //   analyze_green();
-    // }
+       //analyzes green
+       analyze_green();
+     }
 
-    // // Normal line follower
-    // else {
+     // Normal line follower
+     else {
 
-    //   //line follower
-    //   PIDwalk(0.6);
-
-    //   //obstacle
-    //   getObstacle();
+       //line follower
+       PIDwalk(0.6);
+       array_print();
+       //obstacle
+       getObstacle();
       
-    //   //turns off all led
-    //   LEDcontrol(0, 0, 0);
+       //turns off all led
+       LEDcontrol(0, 0, 0);
 
     //   //search for finish line
-    //   finish_line();
-    // }
-
-    PIDwalk(0.6);
+       finish_line();
+     }
       
     // Wait 5ms for next cycle
     flag_loop = millis();
