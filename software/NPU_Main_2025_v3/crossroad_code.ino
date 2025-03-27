@@ -43,7 +43,7 @@ void analyze_green() {
     delay(50);
     turn(-150);
     while (ls < BLACK){
-      right(50);
+      right(150);
       array_read();
     }
 
@@ -69,7 +69,7 @@ void analyze_green() {
     delay(200); 
     turn(60);
     while (rs < BLACK){
-      left(100);
+      left(150);
       array_read();
     }
 
@@ -93,7 +93,7 @@ void analyze_green() {
     delay(200);
     turn(-60);
     while (ls < BLACK){
-      right(50);
+      right(150);
       array_read();
     }
 
@@ -115,7 +115,7 @@ void analyze_green() {
     
     //does pid for a while
     unsigned long f = millis();
-    while (millis() - f < 1250) {
+    while (millis() - f < 1000) {
       array_read();
       PIDwalk(0.6);
       delay(5);

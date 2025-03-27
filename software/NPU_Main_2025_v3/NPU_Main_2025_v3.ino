@@ -25,7 +25,7 @@
 #define MERC2 440
 
 //line constants
-#define BLACK 500 //value of the black line
+#define BLACK 550 //value of the black line
 #define MIDDLE_BLACK 750 //value of the black line for the middle sensor
 #define WHITE 100 //value of the white line
 
@@ -430,11 +430,12 @@ void setup() {
 
 
 void loop() {
-  if (millis() - flag_loop > 15) {
+  if (millis() - flag_loop > 20) {
     while (0) {    
       array_read();
+      // LEDcontrol(0, 0, 1);  
       array_print();
-      // PIDwalk(0.75);
+      // PIDwalk(0.8);
       
       // digitalWrite(A14, 0);
       // color_print();
@@ -464,18 +465,17 @@ void loop() {
      // Normal line follower
      else {
 
-       //line follower
-       PIDwalk(0.6);
-       array_print();
-       //obstacle
-       getObstacle();
-      
-       //turns off all led
-       LEDcontrol(0, 0, 0);
-
-    //   //search for finish line
-       finish_line();
-     }
+      //line follower
+      PIDwalk(0.6);
+      array_print();
+      //obstacle
+      getObstacle();
+    
+      //turns off all led
+      LEDcontrol(0, 0, 0);
+     //search for finish line
+      finish_line();
+    }
       
     // Wait 5ms for next cycle
     flag_loop = millis();
