@@ -82,9 +82,9 @@
 
 
 //constants of proportional, integral and derivative
-#define KP 1.7 //percentage of proportional band
+#define KP 0.5 //percentage of proportional band
 #define KI 0.00 //inverse of integral time
-#define KD 0.7 //derivative of error
+#define KD 0.3 //derivative of error
 
 //maximum and minimum values of i
 #define MIN_INTEGRAL -100
@@ -430,12 +430,12 @@ void setup() {
 
 
 void loop() {
-  if (millis() - flag_loop > 20) {
+  if (millis() - flag_loop > 50) {
     while (0) {    
       array_read();
       // LEDcontrol(0, 0, 1);  
-      array_print();
-      // PIDwalk(0.8);
+      // array_print();
+      PIDwalk(0.8);
       
       // digitalWrite(A14, 0);
       // color_print();
@@ -444,7 +444,7 @@ void loop() {
     }
 
     //battery alert and array read
-    BuzzerAlert();
+   // BuzzerAlert();
     array_read();
 
     //detect when it goes up
@@ -466,20 +466,21 @@ void loop() {
      else {
 
       //line follower
-      PIDwalk(0.6);
+      PIDwalk(0.8);
       array_print();
       //obstacle
-      getObstacle();
+      //getObstacle();
     
       //turns off all led
       LEDcontrol(0, 0, 0);
      //search for finish line
-      finish_line();
+      // finish_line();
     }
       
     // Wait 5ms for next cycle
+    Serial.print("MILLIS: ");
+    Serial.println(millis()-flag_loop);
     flag_loop = millis();
   }
-  delayMicroseconds(500);
-
+  //delayMicroseconds(500);
 }

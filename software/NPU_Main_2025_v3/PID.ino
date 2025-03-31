@@ -6,7 +6,7 @@ void PIDwalk(float a) {
   
 
   //difference between left and right reflectance sensors
-  error = (els*WE + ls*WI - ers*WE - rs*WI)/3.86;
+  error = els*WE + ls*WI - ers*WE - rs*WI;
 
 
   //proportional
@@ -59,16 +59,21 @@ void PIDwalk(float a) {
   //debug for when motor reverts
   if (u == 530.0 || u == -530.0) digitalWrite(22, 1);
   else digitalWrite(22, 0);
+  Serial.print("U: ");
   Serial.println(u);
+  Serial.print("error: ");
+  Serial.println(error);
+
   //walks
   if (u > 0)
   {
     
     walk((265-u)*a, 265*a);
+    if (u == 530.0)delay(10);
   }
   else
   {
     walk(265*a, (265+u)*a);
-    
+    if (u == -530.0)delay(10);
   }
 }

@@ -40,7 +40,7 @@ void analyze_green() {
     //turn on the green led and turns until it's on a black line
     digitalWrite(LEDG, 1);
     walk(150, 150);
-    delay(50);
+    delay(60);
     turn(-150);
     while (ls < BLACK){
       right(150);
@@ -61,12 +61,12 @@ void analyze_green() {
     //ledcontrol for debug "there's a green"
     LEDcontrol(0,1,0);
     walk(150, 150);
-    delay(50);
+    delay(60);
 
     //turn on the green led and turns until it's on a black line
     digitalWrite(LEDG, 1);
-    walk(50, 50);
-    delay(200); 
+    walk(150, 150);
+    delay(60); 
     turn(60);
     while (rs < BLACK){
       left(150);
@@ -86,7 +86,7 @@ void analyze_green() {
     //ledcontrol for debug "there's a green"
     LEDcontrol(0,1,0);
     walk(150, 150);
-    delay(50);
+    delay(60);
     //turn on the green led and turns until it's on a black line
     digitalWrite(LEDG, 1);
     walk(50, 50);
