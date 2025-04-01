@@ -117,11 +117,19 @@ void getObstacle() {
 
    if (count_u > 7) {
       walk_distance(-2.0);
-      Obstacle('r');
+      Obstacle_time();
    }
 }
 
+void Obstacle_time() {
+   int obs_s=1;
 
+   pos_mode=1;
+   go_back=1;
+   revolution(2, 2);
+   walk(0, 0);
+   while(1);
+}
 
 void Obstacle(char c) {
 

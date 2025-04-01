@@ -41,6 +41,34 @@ void readLED() {
   LEDcontrol(0, 0, 0);
 }
 
+//Read what the LED is detecting
+void readLED_finish() {
+
+  //turns on and read the RED
+  LEDcontrol(1,0,0); 
+  delay(1);
+  rr = analogRead(RCS);
+  rl = analogRead(LCS);
+  delay(1); 
+  
+  //turns on and read the GREEN
+  LEDcontrol(0,1,0);
+  delay(1);
+  gr = analogRead(RCS);  
+  gl = analogRead(LCS);
+  delay(1);
+  
+  //turns on and read the BLUE
+  LEDcontrol(0,0,1);
+  delay(1);    
+  br = analogRead(RCS);   
+  bl = analogRead(LCS);  
+  delay(1);  
+
+  //turns everything off
+  LEDcontrol(0, 0, 0);
+}
+
 //Read what the rescue LED is detecting
 void readLEDRescue() {
 
@@ -190,30 +218,24 @@ int lower(int val1, int val2, int val3) {
 
 
 //if the red is the lowest value by far, then it's the finish line 
-bool finish_right(){
-  for (int i = 0; i < 10; i++){
-    readLED();
-    int delta = higher(rr, gr, br) - lower(rr, gr, br); //if necessary, the variation can be used
-    if((rr+60) < gr && rr < br && br > 850) return true; 
-    else return false;
-  }
-}
-bool finish_left(){
-  for (int i = 0; i < 10; i++){
-    readLED();
-    int delta = higher(rr, gr, br) - lower(rr, gr, br); //if necessary, the variation can be used
-    if((rl+60) < gl && rl < bl && bl > 850) return true; 
-    else return false;
-  }
-}
 
 //counter for line
 int finish_counter=0;
 
 // function used to detect finish line (similar for the dectecion of room 3 and green)
-bool finish_line(){
-  readLED();
-  if(finish_right() == true && finish_left() == true && ms < BLACK) 
+void finish_line(){
+  bool finish_l=0, finish_r=0;
+  for (int i = 0; i < 1; i++){
+    readLED_finish();
+    int deltal = higher(rl, gl, bl) - lower(rl, gl, bl); //if necessary, the variation can be used
+    if((rl+60) < gl && rl < bl && bl > 850) finish_l=1;
+
+    int deltar = higher(rr, gr, br) - lower(rr, gr, br); //if necessary, the variation can be used
+    if((rr+60) < gr && rr < br && br > 850) finish_r=1;
+  }
+
+
+  if(finish_r == 1 && finish_l == 1 && ms < BLACK) 
   {
     finish_counter++;
   }

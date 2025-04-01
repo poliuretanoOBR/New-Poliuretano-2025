@@ -72,6 +72,8 @@ void analyze_green() {
       left(150);
       array_read();
     }
+    walk(265, 265);
+    delay(100);
 
     //stops
     walk(0, 0);
@@ -96,6 +98,9 @@ void analyze_green() {
       right(150);
       array_read();
     }
+
+    walk(265, 265);
+    delay(100);
 
     //stops
     walk(0, 0);

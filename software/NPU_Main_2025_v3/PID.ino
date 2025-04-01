@@ -57,7 +57,7 @@ void PIDwalk(float a) {
   }
   
   //debug for when motor reverts
-  if (u == 530.0 || u == -530.0) digitalWrite(22, 1);
+  if (u == U_MAX || u == U_MIN) digitalWrite(22, 1);
   else digitalWrite(22, 0);
   Serial.print("U: ");
   Serial.println(u);
@@ -69,11 +69,11 @@ void PIDwalk(float a) {
   {
     
     walk((265-u)*a, 265*a);
-    if (u == 530.0)delay(10);
+    if (u == U_MAX)delay(15);
   }
   else
   {
     walk(265*a, (265+u)*a);
-    if (u == -530.0)delay(10);
+    if (u == U_MIN)delay(15);
   }
 }

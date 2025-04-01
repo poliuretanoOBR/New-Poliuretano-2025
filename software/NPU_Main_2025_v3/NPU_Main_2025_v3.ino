@@ -91,8 +91,8 @@
 #define MAX_INTEGRAL 100
 
 //maximum and minimum values of u
-#define U_MIN -530
-#define U_MAX 530
+#define U_MIN -530.0
+#define U_MAX 530.0
 
 #define WE 2.0 //outer sensors weight aproximation
 #define WI 1.0 //inner sensors weight aproximation
@@ -155,7 +155,7 @@ int battery = 0;
 float vt = 0.0 ,vb = 0.0,vl = 0.0,vr = 0.0,prev_vb = 0.0,prev_vt = 0.0, media_vb = 0.0, media_vt = 0.0, media_vl = 0.0, media_vr = 0.0, delta_vb = 0.0,delta_vt = 0.0,delta_mbt = 0.0;
 int c_angle=0, entrance_angle, exit_angle=1023, tri_red, tri_green,triangles = 0,tri = 0, detec=0;
 unsigned long delta_timer_balls = 0;
-bool room_clear = 0;
+bool room_clear = 0, go_back=0, pos_mode=0;
 float media_sp = 0.0;
 int s=0;
 float max_top = 0.1, maxlat = 0.1, t=0.0, tc=0.0;
@@ -231,6 +231,7 @@ void LEDRescue(bool r, bool g, bool b);
 
 //Reading LEDs functions
 void readLED();
+void readLED_finish();
 void readLEDRescue();
 
 //Printing functions
@@ -252,9 +253,7 @@ bool in_range(int read_value, int ref_value, int tol);
 int higher(int val1, int val2, int val3);
 int lower(int val1, int val2, int val3);
 
-bool finish_line();
-bool finish_right();
-bool finish_left();
+void finish_line();
 
 //Board LEDs function
 void Sinalize(bool gled,int blinksg,bool rled,int blinksr,int t);
@@ -287,6 +286,8 @@ float getmnUltra(int u, int den);
 float getMaxLeftRight();
 void getObstacle();
 void Obstacle(char c);
+void Obstacle_time();
+
 
 //Servos 
 void set_servo (int n, int f_pos);
@@ -430,12 +431,18 @@ void setup() {
 
 
 void loop() {
-  if (millis() - flag_loop > 50) {
-    while (0) {    
-      array_read();
+  if (millis() - flag_loop > 10) {
+    while (0) {
+      pos_mode=1;
+      go_back=0;
+      revolution(5, 5);    
+      delay(100);
+      // Serial.println(getUltra(4));
+      // delay(100);
+      // readLED_finish();
+      // array_read();
       // LEDcontrol(0, 0, 1);  
       // array_print();
-      PIDwalk(0.8);
       
       // digitalWrite(A14, 0);
       // color_print();
@@ -469,12 +476,12 @@ void loop() {
       PIDwalk(0.8);
       array_print();
       //obstacle
-      //getObstacle();
+      getObstacle();
     
       //turns off all led
       LEDcontrol(0, 0, 0);
-     //search for finish line
-      // finish_line();
+      //search for finish line
+      finish_line();
     }
       
     // Wait 5ms for next cycle
