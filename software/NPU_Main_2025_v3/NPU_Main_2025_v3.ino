@@ -432,11 +432,36 @@ void setup() {
 
 void loop() {
   if (millis() - flag_loop > 10) {
-    while (0) {
-      pos_mode=1;
-      go_back=0;
-      revolution(5, 5);    
-      delay(100);
+      
+    revolution(10,10);
+    delay(1000);
+    // Serial.print("real pos 1: ");
+    // Serial.println(dxl.getPresentPosition(DXL_ID));  
+    // Serial.print("real pos 2: ");
+    // Serial.println(dxl2.getPresentPosition(DXL_ID2));
+    // revolution(2,2);
+    // Serial.print("real pos 1: ");
+    // Serial.println(dxl.getPresentPosition(DXL_ID));  
+    // Serial.print("real pos 2: ");
+    // Serial.println(dxl2.getPresentPosition(DXL_ID2));
+    while (1) {
+      // dxl.torqueOff(DXL_ID);//turn off torque to change operation mode
+      // dxl2.torqueOff(DXL_ID2);//turn off torque to change operation mode
+      // dxl.setOperatingMode(DXL_ID, OP_EXTENDED_POSITION);//sets operation mode to extended position
+      // dxl2.setOperatingMode(DXL_ID2, OP_EXTENDED_POSITION);//sets operation mode to extended position
+      // dxl.torqueOn(DXL_ID);//turn torque on
+      // dxl2.torqueOn(DXL_ID2); //turn torque on
+      // dxl.setGoalPosition(DXL_ID, 0);//sets the REAL goal position adding it current position
+      // dxl2.setGoalPosition(DXL_ID2, 0);//sets the REAL goal position adding it current position
+      // delay(5000);
+      // dxl.setGoalPosition(DXL_ID, 4096);//sets the REAL goal position adding it current position
+      // dxl2.setGoalPosition(DXL_ID2, 4096);//sets the REAL goal position adding it current position
+      // while(1);
+      // Serial.println((long)4096*10);
+      // pos_mode=1;
+      // go_back=0;
+      // revolution(5, 5);    
+      // delay(100);
       // Serial.println(getUltra(4));
       // delay(100);
       // readLED_finish();
