@@ -117,19 +117,50 @@ void getObstacle() {
 
    if (count_u > 7) {
       walk_distance(-2.0);
-      Obstacle_time();
+      Obstacle('r');
    }
 }
 
-void Obstacle_time() {
-   int obs_s=1;
+// void Obstacle_time() {
+//    int obs_s=1;
 
-   pos_mode=1;
-   go_back=1;
-   revolution(2, 2);
-   walk(0, 0);
-   while(1);
-}
+//    turn(90*obs_s);   
+
+//    walk(100, 100);
+//    delay(200);
+//    freeze(50);
+//    array_read();
+//    flag = millis();
+//    while(els<=400 && ers<=400 && millis()-flag<1000){
+//       array_read();
+//       array_print();
+//       Serial.println(millis()-flag);
+//       walk(-110, -110);
+//    }
+//    if(ers<=700 && millis()-flag<1000){while(ers<=700 && millis()-flag<1000){array_read();walk(0, -130);array_print();Serial.println(millis()-flag);}walk(0, -130);delay(150);freeze(50);}
+//    if(els<=700 && millis()-flag<1000){while(els<=700 && millis()-flag<1000){array_read();walk(-130, 0);array_print();Serial.println(millis()-flag);}walk(0, -130);delay(150);freeze(50);}
+//    array_print();Serial.println(millis()-flag);
+//    freeze(100);
+//    walk_rev(22.5, 1);
+//    freeze(100);
+//    turn(-90*obs_s);
+//    freeze(100);
+//    walk_rev(37.0, 1);
+//    freeze(100);
+//    turn(-90*obs_s);
+//    freeze(100);
+//    walk_rev(10.0, 1);
+//    array_read();
+//    while(NOSIB()==0){
+//       array_read();
+//       array_print();
+//       walk(180, 180);
+//    }
+//    walk_rev(3.0, 1);
+//    freeze(30);
+//    turn(90*obs_s);
+//    while(1);
+// }
 
 void Obstacle(char c) {
 

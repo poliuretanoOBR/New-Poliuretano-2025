@@ -22,7 +22,7 @@
 
 //mercury port
 #define MERC 40
-#define MERC2 440
+#define MERC2 42
 
 //line constants
 #define BLACK 550 //value of the black line
@@ -155,7 +155,7 @@ int battery = 0;
 float vt = 0.0 ,vb = 0.0,vl = 0.0,vr = 0.0,prev_vb = 0.0,prev_vt = 0.0, media_vb = 0.0, media_vt = 0.0, media_vl = 0.0, media_vr = 0.0, delta_vb = 0.0,delta_vt = 0.0,delta_mbt = 0.0;
 int c_angle=0, entrance_angle, exit_angle=1023, tri_red, tri_green,triangles = 0,tri = 0, detec=0;
 unsigned long delta_timer_balls = 0;
-bool room_clear = 0, go_back=0, pos_mode=0;
+bool room_clear = 0;
 float media_sp = 0.0;
 int s=0;
 float max_top = 0.1, maxlat = 0.1, t=0.0, tc=0.0;
@@ -182,7 +182,7 @@ double previous_error=0; //"previous run" timer
 int ers, rs, ms, ls, els, count_u = 0;   // Middle, left, right, external left and external right sensor defined
 int rr, rl, gr, gl, br, bl; // Creates the color sensor variables, in RGB for each side
 int red_rescue, green_rescue, blue_rescue; // Creates the color sensor variables, in RGB (rescue)
-int ram = 0; //
+int ram = 0, ram2=0; //
 
 const int DXL_DIR_PIN = 53; // direction PIN
  
@@ -220,7 +220,8 @@ void turn(int alfa);
 void Simple_turn(int alfa); 
 
 //Mercury sensor function
-void DetectInclination();
+void DetectInclinationUP();
+void DetectInclinationDOWN();
 
 
 // Optic:
@@ -286,8 +287,11 @@ float getmnUltra(int u, int den);
 float getMaxLeftRight();
 void getObstacle();
 void Obstacle(char c);
-void Obstacle_time();
+// void Obstacle_time();
 
+//encoder
+void revolution(float revl, float revr, bool go_back);
+void walk_rev(float cm, bool change);
 
 //Servos 
 void set_servo (int n, int f_pos);
@@ -432,36 +436,9 @@ void setup() {
 
 void loop() {
   if (millis() - flag_loop > 10) {
-      
-    revolution(10,10);
-    delay(1000);
-    // Serial.print("real pos 1: ");
-    // Serial.println(dxl.getPresentPosition(DXL_ID));  
-    // Serial.print("real pos 2: ");
-    // Serial.println(dxl2.getPresentPosition(DXL_ID2));
-    // revolution(2,2);
-    // Serial.print("real pos 1: ");
-    // Serial.println(dxl.getPresentPosition(DXL_ID));  
-    // Serial.print("real pos 2: ");
-    // Serial.println(dxl2.getPresentPosition(DXL_ID2));
-    while (1) {
-      // dxl.torqueOff(DXL_ID);//turn off torque to change operation mode
-      // dxl2.torqueOff(DXL_ID2);//turn off torque to change operation mode
-      // dxl.setOperatingMode(DXL_ID, OP_EXTENDED_POSITION);//sets operation mode to extended position
-      // dxl2.setOperatingMode(DXL_ID2, OP_EXTENDED_POSITION);//sets operation mode to extended position
-      // dxl.torqueOn(DXL_ID);//turn torque on
-      // dxl2.torqueOn(DXL_ID2); //turn torque on
-      // dxl.setGoalPosition(DXL_ID, 0);//sets the REAL goal position adding it current position
-      // dxl2.setGoalPosition(DXL_ID2, 0);//sets the REAL goal position adding it current position
-      // delay(5000);
-      // dxl.setGoalPosition(DXL_ID, 4096);//sets the REAL goal position adding it current position
-      // dxl2.setGoalPosition(DXL_ID2, 4096);//sets the REAL goal position adding it current position
-      // while(1);
-      // Serial.println((long)4096*10);
-      // pos_mode=1;
-      // go_back=0;
-      // revolution(5, 5);    
-      // delay(100);
+    
+    while (0) { 
+
       // Serial.println(getUltra(4));
       // delay(100);
       // readLED_finish();
@@ -471,47 +448,50 @@ void loop() {
       
       // digitalWrite(A14, 0);
       // color_print();
-      // Serial.println(dxl.getPresentPosition(DXL_ID, UNIT_RAW));
-      // Serial.println(dxl2.getPresentPosition(DXL_ID2, UNIT_RAW));
+      walk(200, 200); 
+      Serial.println(analogRead(MERC2));
     }
 
     //battery alert and array read
-   // BuzzerAlert();
+    // BuzzerAlert();
     array_read();
 
     //detect when it goes up
-    // DetectInclination();
+    DetectInclinationDOWN();
+    // DetectInclinationUP();
 
     // //Crossroad
-     if((ms >=  MIDDLE_BLACK && NOSIB() >= 2) || NOSIB()>=3) {
-       //Stop the robot when enters crossroad
-       back(205);
-       delay(100);
-       back(100);
-       delay(100);
+    if((ms >=  MIDDLE_BLACK && NOSIB() >= 2) || NOSIB()>=3) {
+      //Stop the robot when enters crossroad
+      back(205);
+      delay(100);
+      back(100);
+      delay(100);
 
-       //analyzes green
-       analyze_green();
-     }
+      //analyzes green
+      analyze_green();
+    }
 
-     // Normal line follower
-     else {
+    // Normal line follower
+    else {
 
       //line follower
       PIDwalk(0.8);
       array_print();
+      
       //obstacle
       getObstacle();
     
       //turns off all led
       LEDcontrol(0, 0, 0);
+      
       //search for finish line
       finish_line();
     }
       
     // Wait 5ms for next cycle
-    Serial.print("MILLIS: ");
-    Serial.println(millis()-flag_loop);
+    // Serial.print("MILLIS: ");
+    // Serial.println(millis()-flag_loop);
     flag_loop = millis();
   }
   //delayMicroseconds(500);

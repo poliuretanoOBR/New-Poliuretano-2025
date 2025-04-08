@@ -145,33 +145,6 @@ void Simple_turn(int alfa)
 }
 
 
-
-//uses mercury sensor to detect inclination
-void DetectInclination() {
-  bool getup=0;
-  if (digitalRead(MERC))ram++;
-  else ram = 0;
-  if (ram >= 3){
-    freeze(50);
-    set_servo(1, 180);
-    ram=5;
-    Serial.println("abaixei");
-    }
-  while (ram >= 3)  {
-    Serial.println(ram);
-    // while(1)freeze(25);
-    array_read();
-    PIDwalk(0.6);
-    getup=1;
-    if (digitalRead(MERC) && ram < 10)ram++;
-    else if (!digitalRead(MERC))ram--;
-    delay(25);
-  }
-
-  if (getup){freeze(50);set_servo(1, 10);getup=0;}
-}
-
-
 //calculate error on robot resting
 void CalculateErrorGyro() {
   float elapsedtime, GyroErrorZ = 0.0;
