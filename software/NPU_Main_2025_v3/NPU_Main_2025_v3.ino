@@ -448,9 +448,10 @@ void loop() {
       
       // digitalWrite(A14, 0);
       // color_print();
-      walk(200, 200); 
-      Serial.println(analogRead(MERC2));
+      // walk(200, 200); 
+      Serial.println(digitalRead(MERC2));
     }
+
 
     //battery alert and array read
     // BuzzerAlert();
@@ -458,7 +459,7 @@ void loop() {
 
     //detect when it goes up
     DetectInclinationDOWN();
-    // DetectInclinationUP();
+    DetectInclinationUP();
 
     // //Crossroad
     if((ms >=  MIDDLE_BLACK && NOSIB() >= 2) || NOSIB()>=3) {

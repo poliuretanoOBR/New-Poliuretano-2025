@@ -116,8 +116,8 @@ void inc_analyze_green() {
       //turn on the green led and turns 60 degrees (safer than to search the black line at inclination)
       digitalWrite(LEDG, 1);
       walk(-150, -150);
-      delay(200); 
-      inc_turn(60);
+      delay(400); 
+      inc_turn(80);
 
       
       walk(265, 265);
@@ -136,11 +136,11 @@ void inc_analyze_green() {
       //ledcontrol for debug "there's a green"
       LEDcontrol(0,1,0);
       walk(-150, -150);
-      delay(200);
+      delay(400);
 
       //turn on the green led and turns 60 degrees (safer than to search the black line at inclination)
       digitalWrite(LEDG, 1);
-      inc_turn(-60);
+      inc_turn(-70);
   
       walk(265, 265);
       delay(100);
@@ -209,6 +209,20 @@ void DetectInclinationDOWN() {
             // Normal line follower
             else {
 
+                if (ers > BLACK + 100 && ms < 300 && els < 300)
+                {
+                  walk(-150, -150);
+                  delay(300);
+                  turn(-40);
+                  
+                }
+                else if (els > BLACK + 100 && ms < 300 && ers < 300)
+                {
+                  walk(-150, -150);
+                  delay(300);
+                  turn(40);
+                  
+                }
                 //line follower
                 PIDwalk(0.5);
                 //   array_print();
@@ -238,13 +252,13 @@ void DetectInclinationUP() {
     bool getup=0;
     if (digitalRead(MERC2))ram2++;
     else ram2 = 0;
-    if (ram2 >= 6){
+    if (ram2 >= 10){
       freeze(50);
       set_servo(1, 180);
       ram2=5;
       Serial.println("i got down");
     }
-    while (ram2 >= 6)  {
+    while (ram2 >= 10)  {
         Serial.println(ram2);
         if (millis() - flag_loop > 10) {
             //battery alert and array read
@@ -264,7 +278,20 @@ void DetectInclinationUP() {
 
             // Normal line follower
             else {
-
+                if (ers > BLACK + 100 && ms < 300 && els < 100)
+                {
+                  walk(-150, -150);
+                  delay(300);
+                  turn(-40);
+                  
+                }
+                else if (els > BLACK + 100 && ms < 300 && ers < 300)
+                {
+                  walk(-150, -150);
+                  delay(300);
+                  turn(40);
+                  
+                }
                 //line follower
                 PIDwalk(0.5);
                 //   array_print();
