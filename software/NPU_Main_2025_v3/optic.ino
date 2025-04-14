@@ -224,16 +224,19 @@ int finish_counter=0;
 
 // function used to detect finish line (similar for the dectecion of room 3 and green)
 void finish_line(){
-  bool finish_l=0, finish_r=0;
+  bool finish_l=0, finish_r=0, reflexive_l=0, reflexive_r=0;
   for (int i = 0; i < 1; i++){
     readLED_finish();
-    int deltal = higher(rl, gl, bl) - lower(rl, gl, bl); //if necessary, the variation can be used
+
+    if (rl < 600 && gl < 800 && bl < 600)reflexive_l=1;
+    if (rr < 600 && gr < 800 && br < 600)reflexive_r=1;
+
+    // int deltal = higher(rl, gl, bl) - lower(rl, gl, bl); //if necessary, the variation can be used
     if((rl+60) < gl && rl < bl && bl > 850) finish_l=1;
 
-    int deltar = higher(rr, gr, br) - lower(rr, gr, br); //if necessary, the variation can be used
+    // int deltar = higher(rr, gr, br) - lower(rr, gr, br); //if necessary, the variation can be used
     if((rr+60) < gr && rr < br && br > 850) finish_r=1;
   }
-
 
   if(finish_r == 1 && finish_l == 1 && ms < BLACK) 
   {
@@ -251,7 +254,27 @@ void finish_line(){
       walk(0,0);
     }
   }
+
+  if (reflexive_l && reflexive_r && NOSIB()==0)
+  {
+    
+    freeze(200);
+    readLED_finish();
+    reflexive_l=0;reflexive_r=0;
+
+    if (rl < 600 && gl < 800 && bl < 600)reflexive_l=1;
+    if (rr < 600 && gr < 800 && br < 600)reflexive_r=1;
+
+    if (reflexive_l && reflexive_r && NOSIB()==0)
+    {
+      tone(BUZZER, 155, 5);
+      LEDcontrol(1,1,1);
+
+      while(1)walk(0,0);
+    }
+  }
   
+
 }
 
 // function used to control the board LEDs in most times used to sinalize something

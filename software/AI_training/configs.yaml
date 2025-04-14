@@ -1,0 +1,4 @@
+train: #ablosute path for the training images
+val: #absolute path for the validation images
+
+nc: #insert the number of classes and the name of each

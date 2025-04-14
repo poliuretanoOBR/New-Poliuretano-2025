@@ -179,6 +179,7 @@ void inc_analyze_green() {
 //uses mercury sensor to detect inclination
 void DetectInclinationDOWN() {
     bool getup=0;
+    int ninety_countl = 0, ninety_countr = 0;
     if (digitalRead(MERC))ram++;
     else ram = 0;
     if (ram >= 3){
@@ -208,20 +209,22 @@ void DetectInclinationDOWN() {
 
             // Normal line follower
             else {
-
-                if (ers > BLACK + 100 && ms < 300 && els < 300)
+                
+                if (ers > BLACK + 100 && ms < 300 && els < 300)ninety_countr++;//if an extreme sensor is on black and the middle sensor us on while alongside th opposite extreme sensor
+                else ninety_countr = 0;//making the counter go to zero
+                if (els > BLACK + 100 && ms < 300 && ers < 300)ninety_countl++;//if an extreme sensor is on black and the middle sensor us on while alongside th opposite extreme sensor
+                else ninety_countl = 0;  //making the counter go to zero
+                if(ninety_countr >= 5)//if the counter of ninety curve is higher than 2 do a 90 deegre curve
                 {
                   walk(-150, -150);
                   delay(300);
                   turn(-40);
-                  
                 }
-                else if (els > BLACK + 100 && ms < 300 && ers < 300)
+                else if(ninety_countl >= 5)//if the counter of ninety curve is higher than 2 do a 90 deegre curve
                 {
                   walk(-150, -150);
                   delay(300);
                   turn(40);
-                  
                 }
                 //line follower
                 PIDwalk(0.5);
@@ -250,6 +253,7 @@ void DetectInclinationDOWN() {
 //uses mercury sensor to detect inclination
 void DetectInclinationUP() {
     bool getup=0;
+    int ninety_countl = 0, ninety_countr = 0;
     if (digitalRead(MERC2))ram2++;
     else ram2 = 0;
     if (ram2 >= 10){
@@ -278,20 +282,23 @@ void DetectInclinationUP() {
 
             // Normal line follower
             else {
-                if (ers > BLACK + 100 && ms < 300 && els < 100)
-                {
-                  walk(-150, -150);
-                  delay(300);
-                  turn(-40);
-                  
-                }
-                else if (els > BLACK + 100 && ms < 300 && ers < 300)
-                {
-                  walk(-150, -150);
-                  delay(300);
-                  turn(40);
-                  
-                }
+              if (ers > BLACK + 100 && ms < 300 && els < 300)ninety_countr++;//if an extreme sensor is on black and the middle sensor us on while alongside th opposite extreme sensor
+              else ninety_countr = 0;//making the counter go to zero
+              if (els > BLACK + 100 && ms < 300 && ers < 300)ninety_countl++;//if an extreme sensor is on black and the middle sensor us on while alongside th opposite extreme sensor
+              else ninety_countl = 0;  //making the counter go to zero
+              if(ninety_countr >= 5)//if the counter of ninety curve is higher than 2 do a 90 deegre curve
+              {
+                walk(-150, -150);
+                delay(300);
+                turn(-40);
+              }
+              else if(ninety_countl >= 5)//if the counter of ninety curve is higher than 2 do a 90 deegre curve
+              {
+                walk(-150, -150);
+                delay(300);
+                turn(40);
+              }
+
                 //line follower
                 PIDwalk(0.5);
                 //   array_print();

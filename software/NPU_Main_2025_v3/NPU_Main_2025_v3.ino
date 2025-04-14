@@ -441,15 +441,16 @@ void loop() {
 
       // Serial.println(getUltra(4));
       // delay(100);
-      // readLED_finish();
-      // array_read();
+      // readLED();
+      array_read();
+      // PIDwalk(0.8);
       // LEDcontrol(0, 0, 1);  
-      // array_print();
+      array_print();
       
       // digitalWrite(A14, 0);
       // color_print();
       // walk(200, 200); 
-      Serial.println(digitalRead(MERC2));
+      // Serial.println(digitalRead(MERC2));
     }
 
 

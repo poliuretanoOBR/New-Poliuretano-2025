@@ -53,9 +53,23 @@ void PIDwalk(float a) {
   //if middle sensor and internal sensor of any side is on black, walk straight
   if ((ms > MIDDLE_BLACK && ers > BLACK) || (ms > MIDDLE_BLACK && els > BLACK))
   {
-    u=0;
+    u=0;  
   }
-  
+
+  // if (ms > MIDDLE_BLACK && ls > BLACK && els > 150)
+  // {
+  //   turn(-5);
+  //   walk(150, 150);
+  //   delay(100);
+  // }
+
+  // if (ms > MIDDLE_BLACK && rs > BLACK && ers > 150)
+  // {
+  //   turn(5);
+  //   walk(150, 150);
+  //   delay(100);
+  // }
+
   //debug for when motor reverts
   if (u == U_MAX || u == U_MIN) digitalWrite(22, 1);
   else digitalWrite(22, 0);
